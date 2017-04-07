@@ -26,8 +26,8 @@ colnames(prophetdata) <- c("y", "ds")
 
 #using prophet
 m <- prophet(prophetdata)
-future <- make_future_dataframe(m, period = 7)
+future <- make_future_dataframe(m, period = 5, freq = 'quarter', include_history = TRUE)
 forecast <- prophet:::predict.prophet(m, future)
 
 plot(m, forecast)
-
+prophet_plot_components(m, forecast)
