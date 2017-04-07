@@ -7,22 +7,27 @@ View(DISH_data_Spring_2017)
 rawdata <- DISH_data_Spring_2017
 data <- rawdata[1:84,2:4]
 
-
-plot(data$`#`,data$`Customers Acquired`, type = "l", lwd = 2, col = "blue", xlab = "Time", ylab = "Customers Acquired")
-
 #convert Year/Quarter to time data with looping
 library(zoo)
 
-test <- c("1996Q1", "1998Q3")
-test <- as.Date(as.yearqtr(test, format = "%YQ%q"))
+#test <- c("1996Q1", "1998Q3")
+#test <- as.Date(as.yearqtr(test, format = "%YQ%q"))
+cbind(data, timedata)
 
+#timedata <- as.Date(as.yearqtr(data$`Year / Quarter`, format = "%YQ%q"))
+#data 
+plot(data$timedata, data$`Customers Acquired`, type = "l", lwd = 2, col = "blue", xlab = "Time", ylab = "Customers Acquired")
+View(prophetdata)
 
-sapply(data$`Year / Quarter`, as.Date(data$`Year / Quarter`, format = "%YQ%q"))
-time <- data$`Year / Quarter`
+library(prophet)
+#clean data further for prophet function
+prophetdata <- data[,3:4]
+colnames(prophetdata) <- c("y", "ds")
 
-class(time)
+#using prophet
+m <- prophet(prophetdata)
+future <- make_future_dataframe(m, period = 7)
+forecast <- prophet:::predict.prophet(m, future)
+forecast$yhat
 
-
-
-
-
+m.fit()
