@@ -28,6 +28,6 @@ colnames(prophetdata) <- c("y", "ds")
 m <- prophet(prophetdata)
 future <- make_future_dataframe(m, period = 7)
 forecast <- prophet:::predict.prophet(m, future)
-forecast$yhat
 
-m.fit()
+plot(m, forecast)
+
